@@ -14,6 +14,7 @@ module Prelude
   , justIf
   , positJust
   , pp
+  , strLines
   , (≪)
   ) where
 
@@ -57,3 +58,6 @@ positJust err  Nothing  = throwError err
 
 (≪) ∷ Monad m ⇒ m a → m b → m a
 (≪) = flip (≫)
+
+strLines ∷ String → [String]
+strLines = map toString . lines . toText
