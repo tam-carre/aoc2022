@@ -38,7 +38,7 @@ runMovesGrouped = fst . loop where
 parsePilesAndMoves ∷ String → (Map Int Pile, [Move])
 parsePilesAndMoves = piles &&& moves where
   piles = Map.fromList
-        . map (first read . swap . splitAtEnd 1 . trimStart) -- "  ABC1" → "(1, "AGC")"
+        . map (first read . swap . splitAtEnd 1 . trimStart) -- "  ABC1" → "(1, "ABC")"
         . filter (any isDigit) -- only keep the lines with pile number and contents
         . transpose -- turn the text 90 degrees
         . takeWhile (not . null) -- only keep the schema
