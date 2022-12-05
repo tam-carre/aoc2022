@@ -14,7 +14,6 @@ main = do
     , "Part 2", pileTops . runMovesGrouped  $ parsePilesAndMoves input
     ]
 
-type Piles = Map Int Pile
 type Pile = [Char]
 data Move = Move { qty ∷ Int, src ∷ Int, to  ∷ Int }
 
