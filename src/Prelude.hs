@@ -15,6 +15,7 @@ module Prelude
   , positJust
   , pp
   , strLines
+  , strUnlines
   , (≪)
   ) where
 
@@ -58,6 +59,9 @@ positJust err  Nothing  = throwError err
 
 (≪) ∷ Monad m ⇒ m a → m b → m a
 (≪) = flip (≫)
+
+strUnlines ∷ [String] → String
+strUnlines = toString . unlines . map toText
 
 strLines ∷ String → [String]
 strLines = map toString . lines . toText

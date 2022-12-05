@@ -4,6 +4,7 @@ import Day01 (day01A, day01B)
 import Day02 (day02A, day02B)
 import Day03 (day03A, day03B)
 import Day04 (day04A, day04B)
+import Day05 qualified
 
 main ∷ IO ()
 main = do
@@ -19,3 +20,5 @@ main = do
   echo "Day 4 answers:"
   print =≪ day04A
   print =≪ day04B
+  echo "Day 5 answers:"
+  Day05.main
