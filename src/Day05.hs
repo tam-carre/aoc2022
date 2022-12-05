@@ -16,7 +16,7 @@ main = do
 
 type Piles = Map Int Pile
 type Pile = [Char]
-data Move = Move { qty ∷ Int, src ∷ Int, to  ∷ Int } deriving (Show)
+data Move = Move { qty ∷ Int, src ∷ Int, to  ∷ Int }
 
 pileTops ∷ Map Int Pile → [Char]
 pileTops = map head . Map.elems
