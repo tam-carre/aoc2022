@@ -25,7 +25,7 @@ runMovesOneByOne ∷ (Map Int Pile, [Move]) → Map Int Pile
 runMovesOneByOne = fst . loop where
   loop (piles, [])                 = (piles, [])
   loop (piles, (Move 0 _ _):xs)    = loop (piles, xs)
-  loop (piles, (Move n src to):xs) = loop (moveOne src to piles, Move (n-1) src to: xs)
+  loop (piles, (Move n src to):xs) = loop (moveOne src to piles, Move (n-1) src to : xs)
   moveOne src to piles = Map.adjust tail src $ Map.adjust (srcHead :) to piles where
     srcHead = head $ piles Map.! src
 
