@@ -21,16 +21,16 @@ pileTops ∷ Map Int Pile → [Char]
 pileTops = map head . Map.elems
 
 runMovesOneByOne ∷ (Map Int Pile, [Move]) → Map Int Pile
-runMovesOneByOne = fst . loop where
-  loop (piles, [])                 = (piles, [])
+runMovesOneByOne = loop where
+  loop (piles, [])                 = piles
   loop (piles, (Move 0 _ _):xs)    = loop (piles, xs)
   loop (piles, (Move n src to):xs) = loop (moveOne src to piles, Move (n-1) src to : xs)
   moveOne src to piles = Map.adjust tail src $ Map.adjust (srcHead :) to piles where
     srcHead = head $ piles Map.! src
 
 runMovesGrouped ∷ (Map Int Pile, [Move]) → Map Int Pile
-runMovesGrouped = fst . loop where
-  loop (piles, [])                 = (piles, [])
+runMovesGrouped = loop where
+  loop (piles, [])                 = piles
   loop (piles, (Move n src to):xs) = loop (moveN n src to piles, xs)
   moveN n src to piles = Map.adjust (drop n) src $ Map.adjust (srcTopN ++) to piles where
     srcTopN = take n $ piles Map.! src
