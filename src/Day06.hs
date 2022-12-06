@@ -12,5 +12,5 @@ lengthUntilNUniqChars ∷ Int → String → Int
 lengthUntilNUniqChars n = loop [] where
   loop seen (c:cs) | isNUniq seen = length seen
                    | otherwise    = loop (c:seen) cs
-  isNUniq (take n → str) = length str ≥ n ∧ hasNoDupes str
-  hasNoDupes xs = length (ordNub xs) ≡ length xs
+  isNUniq (take n → cs) = length cs ≥ n ∧ hasNoDupes cs
+  hasNoDupes cs = length (ordNub cs) ≡ length cs
