@@ -25,12 +25,9 @@ smallestDirToDelete dirs = let
 
 parseSizes ∷ String → Map Path Int
 parseSizes = snd . foldl' runLine ([], Map.empty) . strLines where
-  runLine (cd, sizes) = \case
-    (pfx "$ cd " → Just "..") → (dropEnd1 cd, sizes)
-    (pfx "$ cd " → Just dir)  → (cd ++ [dir], Map.alter (<|> Just 0) (cd ++ [dir]) sizes)
-    (isFile → Just size)      → (cd, Map.mapWithKey (incrWithParents cd size) sizes)
-    _                         → (cd, sizes)
-  pfx = stripPrefix
-  isFile (splitOn " " → [s, _]) = readMaybe @Int s
-  isFile _                      = Nothing
+  runLine (cd, sizes) ln = case strWords ln of
+    ["$", "cd", ".."]          → (dropEnd1 cd, sizes)
+    ["$", "cd", dir]           → (cd ++ [dir], Map.alter (<|> Just 0) (cd ++ [dir]) sizes)
+    [readMaybe → Just size, _] → (cd, Map.mapWithKey (incrWithParents cd size) sizes)
+    _                          → (cd, sizes)
   incrWithParents cd sz path oldSz = if path `isPrefixOf` cd then oldSz + sz else oldSz
