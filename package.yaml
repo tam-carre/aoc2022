@@ -33,6 +33,7 @@ dependencies:
 - QuickCheck
 - safe-exceptions
 - http-types
+- safe
 
 language: GHC2021
 

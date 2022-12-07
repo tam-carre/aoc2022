@@ -6,6 +6,7 @@ import Day03 (day03A, day03B)
 import Day04 (day04A, day04B)
 import Day05 qualified
 import Day06 qualified
+import Day07 qualified
 
 main ∷ IO ()
 main = do
@@ -25,3 +26,5 @@ main = do
   Day05.main
   echo "Day 6 answers:"
   Day06.main
+  echo "Day 7 answers:"
+  Day07.main

@@ -12,10 +12,12 @@ module Prelude
   , applyWhen
   , echo
   , justIf
+  , mytails
   , positJust
   , pp
   , strLines
   , strUnlines
+  , windows
   , (≪)
   ) where
 
@@ -31,6 +33,7 @@ import Data.List.Unicode
 import Data.Monoid.Unicode
 import Data.Ord.Unicode
 import Relude
+import Safe.Exact             (takeExactMay)
 
 ----------------------------------------------------------------------------------------------------
 
@@ -65,3 +68,10 @@ strUnlines = toString . unlines . map toText
 
 strLines ∷ String → [String]
 strLines = map toString . lines . toText
+
+windows ∷ Int → [a] → [[a]]
+windows n = mapMaybe (takeExactMay n) . tails
+
+mytails ∷ [a] → [[a]]
+mytails []     = [[]]
+mytails (x:xs) = (x:xs) : mytails xs
