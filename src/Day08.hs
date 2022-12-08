@@ -25,12 +25,12 @@ highestScenicScore ∷ [[Int]] → Int
 highestScenicScore mtx = maximum . map score $ flat mtx where
   score (x,y,el) = scoreLeft * scoreRight * scoreTop * scoreBottom where
     (line, col) = (mtx !! y, transpose mtx !! x)
-    scoreTop    = length . takeWhileEndIncl (< el) . take y $ col
-    scoreLeft   = length . takeWhileEndIncl (< el) . take x $ line
-    scoreBottom = length . takeWhileIncl (< el) . drop (y+1) $ col
-    scoreRight  = length . takeWhileIncl (< el) . drop (x+1) $ line
-    takeWhileIncl p    = (\(ok, rest) → ok ++ take 1 rest) . span p
-    takeWhileEndIncl p = reverse . takeWhileIncl p . reverse
+    scoreTop    = length . takeWhileEndIncl (< el) . take y     $ col
+    scoreLeft   = length . takeWhileEndIncl (< el) . take x     $ line
+    scoreBottom = length . takeWhileIncl    (< el) . drop (y+1) $ col
+    scoreRight  = length . takeWhileIncl    (< el) . drop (x+1) $ line
+  takeWhileIncl p    = (\(ok, rest) → ok ++ take 1 rest) . span p
+  takeWhileEndIncl p = reverse . takeWhileIncl p . reverse
 
 flat ∷ [[a]] → [(Int, Int, a)] -- [(xcord, ycord, a)]
 flat = join . zipWith (\y → zipWith (,y,) [0..]) [0..]
