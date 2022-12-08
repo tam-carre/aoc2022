@@ -23,15 +23,14 @@ numberVisibleFromOutside mtx = length . filter visible $ flat mtx where
 
 highestScenicScore ∷ [[Int]] → Int
 highestScenicScore mtx = maximum . map score $ flat mtx where
-  width  = length $ mtx !! 0
-  height = length mtx
+  takeWhileIncl p = (\(ok, rest) → ok ++ take 1 rest) . span p
+  takeWhileEndIncl p = reverse . takeWhileIncl p . reverse
   score (x,y,el) = scoreLeft * scoreRight * scoreTop * scoreBottom where
     (line, col) = (mtx !! y, transpose mtx !! x)
-    scoreTop    = min y . (1 +) . length . takeWhileEnd (< el) . take y $ col
-    scoreLeft   = min x . (1 +) . length . takeWhileEnd (< el) . take x $ line
-    scoreBottom = min (height-y-1) . (1 +) . length . takeWhile (< el) . drop (y+1) $ col
-    scoreRight  = min (width-x-1) . (1 +) . length . takeWhile (< el) . drop (x+1) $ line
+    scoreTop    = length . takeWhileEndIncl (< el) . take y $ col
+    scoreLeft   = length . takeWhileEndIncl (< el) . take x $ line
+    scoreBottom = length . takeWhileIncl (< el) . drop (y+1) $ col
+    scoreRight  = length . takeWhileIncl (< el) . drop (x+1) $ line
 
--- | flattens an [[a]] matrix into an [(xCord, yCord, a)]
-flat ∷ [[a]] → [(Int, Int, a)]
+flat ∷ [[a]] → [(Int, Int, a)] -- [(xcord, ycord, a)]
 flat = join . zipWith (\y → zipWith (,y,) [0..]) [0..]
