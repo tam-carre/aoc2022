@@ -1,7 +1,7 @@
 module Day08 where
 
 import Data.Char       (digitToInt)
-import Data.List.Extra (maximum, takeWhileEnd)
+import Data.List.Extra (maximum)
 import Relude.Unsafe   ((!!))
 
 main ∷ IO ()
