@@ -30,4 +30,4 @@ main = do
   echo "Day 7 answers:"
   Day07.main
   echo "Day 8 answers:"
-  Day08.main
+  Day08.main -- 1849 / 201600
