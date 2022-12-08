@@ -9,7 +9,7 @@ module Prelude
   , module Data.Monoid.Unicode
   , module Data.Ord.Unicode
   , module Relude
-  , applyWhen
+  --, applyWhen
   , echo
   , justIf
   , positJust
@@ -49,8 +49,8 @@ pp = pascalToTitleCase . show where
     loop (x:xs) | Char.isUpper x = ' ':x:loop xs
                 | otherwise      = x:loop xs
 
-applyWhen ∷ Bool → (a → a) → a → a
-applyWhen cond f a = if cond then f a else a
+-- applyWhen ∷ Bool → (a → a) → a → a
+-- applyWhen cond f a = if cond then f a else a
 
 justIf ∷ Bool → a → Maybe a
 justIf cond a = if cond then Just a else Nothing

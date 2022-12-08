@@ -34,6 +34,7 @@ dependencies:
 - safe-exceptions
 - http-types
 - safe
+- ghc
 
 language: GHC2021
 
