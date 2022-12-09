@@ -19,7 +19,7 @@ type Rope = [Pos]
 
 totalVisitedPositionsByLast ∷ Int → [Move] → Int
 totalVisitedPositionsByLast len = length . ordNub . map last . scanl runMove (mkRope len) where
-  mkRope n = Pos 0 0 : replicate n (Pos 0 0)
+  mkRope n = replicate (n+1) (Pos 0 0)
   runMove (oldHead:oldTail) move = newHead : newTail newHead where
     run movement (Pos x y) = case movement of
       'R' → Pos (x + 1) y
