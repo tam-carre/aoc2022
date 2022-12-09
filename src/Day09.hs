@@ -2,6 +2,7 @@
 
 module Day09 where
 
+import Data.List     (nub)
 import Prelude       hiding (head, last)
 import Relude.Unsafe (last, read)
 
@@ -15,13 +16,13 @@ main = do
 
 type Move = Char
 data Pos  = Pos { x ∷ Int, y ∷ Int } deriving (Eq, Ord)
-data Rope = Rope { head ∷ Pos, tail ∷ [Pos] } deriving (Eq, Ord)
+type Rope = [Pos]
 
 totalVisitedPositionsByTail ∷ Int → [Move] → Int
-totalVisitedPositionsByTail len = length . ordNub . visitedByTail . scanl runMove (mkRope len) where
-  visitedByTail = map (last . (.tail))
-  mkRope len    = Rope (Pos 0 0) . replicate len $ Pos 0 0
-  runMove (Rope oldHead oldTail) move = Rope newHead (newTail newHead) where
+totalVisitedPositionsByTail len = length . nub . visitedByTail . scanl runMove (mkRope len) where
+  visitedByTail = map last
+  mkRope len    = Pos 0 0 : replicate len (Pos 0 0)
+  runMove (oldHead:oldTail) move = newHead : newTail newHead where
     run movement (Pos x y) = case movement of
       'R' → Pos (x + 1) y
       'L' → Pos (x - 1) y
