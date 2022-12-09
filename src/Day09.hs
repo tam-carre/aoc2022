@@ -9,23 +9,23 @@ main ∷ IO ()
 main = do
   moves ← parseMoves <$> readFile "./inputs/Day09.txt"
   putStr $ strUnlines
-    [ "Part 1:", show . totalVisitedPositionsByTail 1 $ moves -- 62336
-    , "Part 2:", show . totalVisitedPositionsByTail 9 $ moves -- 2449
+    [ "Part 1:", show . totalVisitedPositionsByLast 1 $ moves -- 62336
+    , "Part 2:", show . totalVisitedPositionsByLast 9 $ moves -- 2449
     ]
 
 type Move = Char
 data Pos  = Pos { x ∷ Int, y ∷ Int } deriving (Eq, Ord)
 type Rope = [Pos]
 
-totalVisitedPositionsByTail ∷ Int → [Move] → Int
-totalVisitedPositionsByTail len = length . ordNub . map last . scanl runMove (mkRope len) where
-  mkRope len    = Pos 0 0 : replicate len (Pos 0 0)
+totalVisitedPositionsByLast ∷ Int → [Move] → Int
+totalVisitedPositionsByLast len = length . ordNub . map last . scanl runMove (mkRope len) where
+  mkRope n = Pos 0 0 : replicate n (Pos 0 0)
   runMove (oldHead:oldTail) move = newHead : newTail newHead where
     run movement (Pos x y) = case movement of
       'R' → Pos (x + 1) y
       'L' → Pos (x - 1) y
-      'U' → Pos x       (y + 1)
-      'D' → Pos x       (y - 1)
+      'U' → Pos x (y + 1)
+      'D' → Pos x (y - 1)
     newHead = run move oldHead
     newTail = loop oldTail where
       loop [] _ = []
