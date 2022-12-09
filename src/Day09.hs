@@ -30,17 +30,16 @@ totalVisitedPositionsByTail len = length . ordNub . visitedByTail . scanl runMov
     newHead = run move oldHead
     newTail = loop oldTail where
       loop [] _ = []
-      loop (tailHead:tailTail) head = let
-        xΔ = head.x - tailHead.x
-        yΔ = head.y - tailHead.y
-        absXyΔ = abs xΔ + abs yΔ
+      loop (tailHead:tailTail) head = newTailHead:loop tailTail newTailHead where
         newTailHead = tailHead & when' (any (> 1) [abs xΔ, abs yΔ])
           ( when' (yΔ ≡ 2 ∨ (yΔ ≡ 1 ∧ absXyΔ ≡ 3))       (run 'U')
           . when' (xΔ ≡ 2 ∨ (xΔ ≡ 1 ∧ absXyΔ ≡ 3))       (run 'R')
           . when' (yΔ ≡ (-2) ∨ (yΔ ≡ (-1) ∧ absXyΔ ≡ 3)) (run 'D')
           . when' (xΔ ≡ (-2) ∨ (xΔ ≡ (-1) ∧ absXyΔ ≡ 3)) (run 'L')
           )
-        in newTailHead:loop tailTail newTailHead
+        xΔ = head.x - tailHead.x
+        yΔ = head.y - tailHead.y
+        absXyΔ = abs xΔ + abs yΔ
 
 parseMoves ∷ String → [Move]
 parseMoves = concatMap (\(dir:' ':n) → replicate (read n) dir) . strLines
