@@ -1,13 +1,15 @@
-module Main (main) where
+module Main where
 
-import Day01 (day01A, day01B)
-import Day02 (day02A, day02B)
-import Day03 (day03A, day03B)
-import Day04 (day04A, day04B)
+import Control.Lens (Getting, preview, view)
+import Day01        (day01A, day01B)
+import Day02        (day02A, day02B)
+import Day03        (day03A, day03B)
+import Day04        (day04A, day04B)
 import Day05 qualified
 import Day06 qualified
 import Day07 qualified
 import Day08 qualified
+import Day09 qualified
 
 main ∷ IO ()
 main = do
@@ -30,4 +32,6 @@ main = do
   echo "Day 7 answers:"
   Day07.main
   echo "Day 8 answers:"
-  Day08.main -- 1849 / 201600
+  Day08.main
+  echo "Day 9 answers:"
+  Day09.main

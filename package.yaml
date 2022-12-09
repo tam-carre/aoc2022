@@ -51,6 +51,7 @@ default-extensions:
 - TypeOperators
 - TypeFamilies
 - RecordWildCards
+- MultiWayIf
 
 ghc-options:
 - -Wall
