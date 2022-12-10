@@ -20,6 +20,6 @@ drawScreen history = chunksOf 40 $ map pixel [1..240] where
     sprite    = history !! cy
 
 parseRegisterHistory ∷ String → [Int]
-parseRegisterHistory = scanl (+) 1 . (0 :) . concatMap (parseLine . strWords) . strLines where
-  parseLine ["noop"]      = [0]
-  parseLine ["addx", num] = [0, read num]
+parseRegisterHistory = scanl (+) 1 . (0 :) . concatMap (parseLn . strWords) . strLines where
+  parseLn ["noop"]      = [0]
+  parseLn ["addx", num] = [0, read num]
