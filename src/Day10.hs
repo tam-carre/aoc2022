@@ -14,7 +14,7 @@ sumOfSignalStrengths ∷ [Int] → Int
 sumOfSignalStrengths history = foldr (\cy → (cy * (history !! cy) +)) 0 [20,60..220]
 
 drawScreen ∷ [Int] → [String]
-drawScreen history = chunksOf 40 $ pixel <$> [1..240] where
+drawScreen history = chunksOf 40 $ map pixel [1..240] where
   pixel cy = if currentPx ∈ [sprite..sprite+2] then '#' else '.' where
     currentPx = cy `mod` 40
     sprite    = history !! cy
