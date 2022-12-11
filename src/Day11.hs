@@ -38,7 +38,7 @@ runRounds howMany worry = iterate runRound ⋙ (!! howMany) where
     itemNewWorryLv = op itemWorryLv
       `div` (if worry ≡ Relaxed then 3 else 1)
       -- Full nums are too big BUT we only care abt if they're divisible by the divBy values
-      `mod` product (apes <&> view (#test . #divBy)) -- ergo worry levels may be shrunk thus
+      `mod` product (map (view (#test . #divBy)) apes) -- ergo worry lvls may be shrunk thus
 
 parseApes ∷ String → [Ape]
 parseApes = map parseApe . splitOn "\n\n" where
