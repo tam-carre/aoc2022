@@ -24,7 +24,7 @@ monkeyBusinessLv ∷ [Ape] → Int
 monkeyBusinessLv = product . takeEnd 2 . sort . map (view #inspected)
 
 runRounds ∷ Int → Anxiety → [Ape] → [Ape]
-runRounds howMany worry = iterate runRound ⋙ (!! howMany) where
+runRounds howMany anxiety = iterate runRound ⋙ (!! howMany) where
   runRound apes = foldl' runApe apes $ map (view #id) apes
   runApe apes n = foldl' (runItem n) apes $ view #items (apes !! n)
   runItem senderN apes itemWorryLv = apes
@@ -36,7 +36,7 @@ runRounds howMany worry = iterate runRound ⋙ (!! howMany) where
     Test { divBy, onTrue, onFalse } = test
     recipientN = if itemNewWorryLv `mod` divBy ≡ 0 then onTrue else onFalse
     itemNewWorryLv = op itemWorryLv
-      `div` (if worry ≡ Relaxed then 3 else 1)
+      `div` (if anxiety ≡ Relaxed then 3 else 1)
       -- Full nums are too big BUT we only care abt if they're divisible by the divBy values
       `mod` product (map (view (#test . #divBy)) apes) -- ergo worry lvls may be shrunk thus
 
