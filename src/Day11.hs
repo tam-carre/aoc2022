@@ -25,8 +25,8 @@ monkeyBusinessLv = product . takeEnd 2 . sort . map (view #inspected)
 
 runRounds ∷ Int → Anxiety → [Ape] → [Ape]
 runRounds howMany anxiety = iterate runRound ⋙ (!! howMany) where
-  runRound apes = foldl' runApe apes $ map (view #id) apes
-  runApe apes n = foldl' (runItem n) apes $ view #items (apes !! n)
+  runRound apes  = foldl' runApe apes $ map (view #id) apes
+  runApe apes id = foldl' (runItem id) apes $ view #items (apes !! id)
   runItem senderId apes itemWorryLv = apes
     & over (ix senderId . #items)     drop1
     & over (ix senderId . #inspected) (+1)
