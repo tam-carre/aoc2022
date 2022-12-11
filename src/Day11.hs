@@ -1,7 +1,7 @@
 module Day11 where
 
 import Control.Lens    (ix, over, set, view)
-import Data.List.Extra (drop1, dropEnd1, splitOn, takeEnd)
+import Data.List.Extra (drop1, splitOn, takeEnd)
 import Relude.Unsafe   (read, (!!))
 
 main ∷ IO ()
