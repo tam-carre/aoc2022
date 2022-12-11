@@ -27,14 +27,14 @@ runRounds ∷ Int → Anxiety → [Ape] → [Ape]
 runRounds howMany anxiety = iterate runRound ⋙ (!! howMany) where
   runRound apes = foldl' runApe apes $ map (view #id) apes
   runApe apes n = foldl' (runItem n) apes $ view #items (apes !! n)
-  runItem senderN apes itemWorryLv = apes
-    & over (ix senderN . #items)     drop1
-    & over (ix senderN . #inspected) (+1)
-    & over (ix recipientN . #items)  (++ [itemNewWorryLv])
+  runItem senderId apes itemWorryLv = apes
+    & over (ix senderId . #items)     drop1
+    & over (ix senderId . #inspected) (+1)
+    & over (ix recipientId . #items)  (++ [itemNewWorryLv])
     where
-    Ape { op, test } = apes !! senderN
+    Ape { op, test } = apes !! senderId
     Test { divBy, onTrue, onFalse } = test
-    recipientN = if itemNewWorryLv `mod` divBy ≡ 0 then onTrue else onFalse
+    recipientId = if itemNewWorryLv `mod` divBy ≡ 0 then onTrue else onFalse
     itemNewWorryLv = op itemWorryLv
       `div` (if anxiety ≡ Relaxed then 3 else 1)
       -- Full nums are too big BUT we only care abt if they're divisible by the divBy values
