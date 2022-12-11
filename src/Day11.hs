@@ -45,7 +45,7 @@ parseApes ∷ String → [Ape]
 parseApes = map parseApe . splitOn "\n\n" where
   parseApe = foldr parseLn (Ape 0 [] id 0 $ Test 0 0 0) . strLines
   parseLn ln = case strWords ln of
-    ["Ape",id]               → set #id    $ read (take 1 id)
+    ["Monkey",id]            → set #id    $ read (take 1 id)
     ("Starting":_:xs)        → set #items $ map (read . filter (≢ ',')) xs
     [_,_,_,"old",sign,"old"] → set #op    $ \old → parseSign sign old old
     [_,_,_,"old",sign,n]     → set #op    $ parseSign sign (read n)
