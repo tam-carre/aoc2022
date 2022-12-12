@@ -43,7 +43,7 @@ runRounds howMany anxiety = iterate runRound ⋙ (!! howMany) where
 
 parseApes ∷ String → [Ape]
 parseApes = map parseApe . splitOn "\n\n" where
-  parseApe = foldr parseLn (Ape { test = Test {} }) . strLines
+  parseApe = foldr parseLn (Ape 0 [] id 0 $ Test 0 0 0) . strLines
   parseLn ln = case strWords ln of
     ["Monkey",id]            → set #id    $ read (take 1 id)
     ("Starting":_:xs)        → set #items $ map (read . filter (≢ ',')) xs
