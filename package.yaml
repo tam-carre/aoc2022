@@ -35,6 +35,8 @@ dependencies:
 - http-types
 - safe
 - ghc
+- pathfinding
+- set-monad
 
 language: GHC2021
 

@@ -2,16 +2,18 @@
 
 module Day12 where
 
-import Control.Lens  (over, set)
-import Data.Map      qualified as Map
-import Prelude       hiding (head, init)
-import Relude.Unsafe (head, init)
+import Control.Lens   (over, set)
+import Data.Map       qualified as Map
+import Data.Set.Monad (Set)
+import Data.Set.Monad qualified as Set
+import Prelude        hiding (head, init, Set)
+import Relude.Unsafe  (head, init)
 
 main ∷ IO ()
 main = do
   climb ← parseClimb <$> readFile "./inputs/Day12.txt"
   putStr $ strUnlines
-    [ "Part 1:", show . head . sort . map length $ pathCandidates climb
+    [ "Part 1:", show . head . sort . map length . Set.elems $ pathCandidates climb
     , "Part 2:", "_"
     ]
 
@@ -21,19 +23,23 @@ data Climb = Climb
   , map   ∷ Map (Int,Int) Int
   } deriving (Generic, Show)
 
-type Path = [(Int,Int)]
+type Path = Set (Int,Int)
 
-pathCandidates ∷ Climb → [Path]
-pathCandidates climb = concatMap explore [[climb.start]] where
-  explore path@((x,y):seen)
-    | climb.goal ≡ (x,y) = [init path]
-    | otherwise          = concatMap explore possibleNextPaths
+pathCandidates ∷ Climb → Set Path
+pathCandidates climb = Set.singleton Set.empty ≫= explore climb.start where
+  explore ∷ (Int,Int) → Path → Set Path
+  explore (x,y) path
+    | climb.goal ≡ (x,y) = Set.singleton path
+    | otherwise          = possibleNextPaths ≫= uncurry explore
     where
-    possibleNextPaths =
-      map (: path) $ mapMaybe stepIfViable [(x-1,y),(x+1,y),(x,y+1),(x,y-1)]
+    possibleNextPaths
+      = fmap (, Set.insert (x,y) path)
+      . Set.fromList
+      . mapMaybe stepIfViable
+      $ [(x-1,y),(x+1,y),(x,y+1),(x,y-1)]
     stepIfViable pos =
       Map.lookup pos climb.map ≫= \elevatn →
-        if not (pos ∈ seen) ∧ abs (elevatn - curElevatn) < 2
+        if not (pos `Set.member` path) ∧ abs (elevatn - curElevatn) < 2
           then Just pos
           else Nothing
     curElevatn = climb.map Map.! (x,y)
